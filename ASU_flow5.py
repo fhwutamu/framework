@@ -167,7 +167,11 @@ global_placement
 detailed_placement
 write_def {top_module}_placed.def
 
-route_design
+tapcell
+run_filler
+
+run_routing
+
 write_def {top_module}_routed.def
 
 report_wns > {top_module}_wns.rpt
