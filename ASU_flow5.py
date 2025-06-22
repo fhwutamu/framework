@@ -163,7 +163,8 @@ read_sdc constraint.sdc
 initialize_floorplan -utilization 0.4 -aspect_ratio 1.0 -core_space 2 -site unithd
 
 place_io_terminals
-place_design
+global_placement
+detailed_placement
 write_def {top_module}_placed.def
 
 route_design
