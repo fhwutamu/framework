@@ -51,7 +51,6 @@ def generate_testbench(file_name_to_content: dict[str, str]) -> str:
 
 Make sure the testbench:
 - Testbench module name is `tb`
-- Do not use any parameters and localparam in the testbench
 - Instantiates the DUT (Design Under Verification) correctly with all ports
 - Declares all required signals with the correct directions and bit widths
 - Applies meaningful test vectors based on the module's behavior
@@ -96,12 +95,12 @@ Return only the testbench code inside a ```systemverilog``` code block.
             tmp_path = f.name
 
         with tempfile.NamedTemporaryFile(suffix=".v", mode="w", delete=False) as f:
-            f.write(file_name_to_content.get("mutant_0.v"))
+            f.write(file_name_to_content.get("mutant_0.v", ""))
             tmp_dut_path = f.name
 
         # Step 6: Use iverilog to compile and check for syntax errors
         compile_result = subprocess.run(
-            ["iverilog", "-g2012", tmp_path, tmp_dut_path],
+            ["iverilog", "-g2012", tmp_path,tmp_dut_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
@@ -123,3 +122,12 @@ Return only the testbench code inside a ```systemverilog``` code block.
 
 
 
+
+
+
+def run_iverilog(filenames):
+    try:
+        subprocess.run(["iverilog", *filenames], check=True, capture_output=True)
+        return True, ""
+    except subprocess.CalledProcessError as e:
+        return False, e.stderr.decode()
