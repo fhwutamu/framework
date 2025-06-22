@@ -170,7 +170,12 @@ write_def {top_module}_placed.def
 tapcell
 # run_filler
 
-run_routing
+global_route
+detailed_route 
+
+check_placement
+check_routing
+
 
 write_def {top_module}_routed.def
 
