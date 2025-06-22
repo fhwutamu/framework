@@ -96,7 +96,7 @@ Return only the testbench code inside a ```systemverilog``` code block.
             tmp_path = f.name
 
         with tempfile.NamedTemporaryFile(suffix=".v", mode="w", delete=False) as f:
-            f.write(file_name_to_content.get("mutant_0.v", ""))
+            f.write(file_name_to_content.get("mutant_0.v"))
             tmp_dut_path = f.name
 
         # Step 6: Use iverilog to compile and check for syntax errors
