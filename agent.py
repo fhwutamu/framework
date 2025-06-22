@@ -51,6 +51,7 @@ def generate_testbench(file_name_to_content: dict[str, str]) -> str:
 
 Make sure the testbench:
 - Testbench module name is `tb`
+- Do not use any parameters and localparam in the testbench
 - Instantiates the DUT (Design Under Verification) correctly with all ports
 - Declares all required signals with the correct directions and bit widths
 - Applies meaningful test vectors based on the module's behavior
