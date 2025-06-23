@@ -11,7 +11,8 @@ PDK_MAP = {
     "SkyWater 130HD": {
         "lib":  "/OpenROAD-flow-scripts/flow/platforms/sky130hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib",
         "lef":  "/OpenROAD-flow-scripts/flow/platforms/sky130hd/lef/sky130_fd_sc_hd_merged.lef",
-        "tlef": "/OpenROAD-flow-scripts/flow/platforms/sky130hd/lef/sky130_fd_sc_hd.tlef"
+        "tlef": "/OpenROAD-flow-scripts/flow/platforms/sky130hd/lef/sky130_fd_sc_hd.tlef",
+        "trackers": "/OpenROAD-flow-scripts/flow/platforms/sky130hd/rc/sky130hd_tracks.tcl"
     },
     "SkyWater 130HS": {
         "lib":  "/OpenROAD-flow-scripts/flow/platforms/sky130hs/lib/sky130_fd_sc_hs__tt_025C_1v80.lib",
@@ -150,8 +151,11 @@ def run_openroad_flow(top_module, design_file):
         return
 
     tlef_cmd = f"read_lef {pdk['tlef']}\n" if pdk['tlef'] else ""
+    tracks_cmd = f"source {pdk['trackers']}\n" if pdk['tlef'] else ""
     tcl_script = f"""
-{tlef_cmd}read_lef {pdk['lef']}
+{tlef_cmd}
+{tracks_cmd}
+read_lef {pdk['lef']}
 read_liberty {pdk['lib']}
 
 read_verilog {design_file}
