@@ -154,7 +154,7 @@ def run_openroad_flow(top_module, design_file):
     tracks_cmd = f"source {pdk['trackers']}\n" if pdk['tlef'] else ""
     tcl_script = f"""
 {tlef_cmd}
-{tracks_cmd}
+
 read_lef {pdk['lef']}
 read_liberty {pdk['lib']}
 
@@ -167,6 +167,9 @@ read_sdc constraint.sdc
 initialize_floorplan -utilization 0.4 -aspect_ratio 1.0 -core_space 2 -site unithd
 
 place_io_terminals
+
+set_routing_layers -signal met1 met2 met3 met4 met5
+
 global_placement
 detailed_placement
 write_def {top_module}_placed.def
