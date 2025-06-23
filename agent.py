@@ -46,31 +46,63 @@ def generate_testbench(file_name_to_content: dict[str, str]) -> str:
         return constants.DUMMY_TESTBENCH
 
     print("Current module:", module)
-    # Step 2: Construct the prompt for the LLM
-    prompt_template = f"""You are a SystemVerilog expert. Please generate a valid and synthesizable SystemVerilog testbench for the following module.
 
-Make sure the testbench:
-- Testbench module name is `tb`
-- Do not use any parameters and localparam in the testbench
-- Instantiates the DUT (Design Under Verification) correctly with all ports
-- Declares all required signals with the correct directions and bit widths
-- Applies meaningful test vectors based on the module's behavior
-- Please use repeat loops to apply multiple random test vectors
-- Uses `$error(...)` to report incorrect behavior and terminate the simulation early
-- Prints `$display("TESTS PASSED");` followed by `$finish;` **only if all checks pass**
+
+    # step 1: test plan
+    prompt_plan = f"""You are a SystemVerilog verification expert. Based on the specification below, generate a detailed **step-by-step** test plan to verify the functionality of the described module.
+
+The test plan should include:
+- A brief summary of the module’s functionality.
+- A list of key input and output signals to be tested.
+- A structured list of test cases (TC1, TC2, ...) with:
+  - A short name and purpose for each test case
+  - A brief description of how the test is performed
+  - The expected behavior or pass condition
+
+Do not write any testbench code in this step.
+
+Module Specification:
+----------------
+{spec}
+----------------
+"""
+    testplan = model.generate_content(prompt_plan).text.strip()
+
+
+
+
+    # Step 2: Construct the prompt for the LLM
+    prompt_template = f"""You are a SystemVerilog expert. Based on the DUT specification, its ports, and the test plan provided below, generate a valid and synthesizable SystemVerilog testbench.
+
+Testbench requirements:
+- Testbench module name must be `tb`
+- Do NOT use parameters or localparams
+- Instantiate the DUT with correct ports
+- Declare all required signals with the correct directions and bit widths
+- Apply meaningful test vectors based on the test plan
+- Use `repeat` loops to apply multiple test vectors where appropriate
+- Use `$error(...)` to report any incorrect behavior and stop the simulation
+- Use `$display("TESTS PASSED"); $finish;` only if all checks pass
+
 DUT Module Name:
 ----------------
 {module}
 ----------------
-DUT Module Ports:
+DUT Ports:
 ----------------
 {ports}
-DUT Specification:
+----------------
+Test Plan:
+----------------
+{testplan}
+----------------
+Specification:
 ----------------
 {spec}
 ----------------
 
 Return only the testbench code inside a ```systemverilog``` code block.
+
 """
 
     # Step 3: Try generating and verifying the testbench up to MAX_RETRIES times
