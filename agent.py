@@ -55,6 +55,7 @@ Make sure the testbench:
 - Instantiates the DUT (Design Under Verification) correctly with all ports
 - Declares all required signals with the correct directions and bit widths
 - Applies meaningful test vectors based on the module's behavior
+- Please use repeat loops to apply multiple random test vectors
 - Uses `$error(...)` to report incorrect behavior and terminate the simulation early
 - Prints `$display("TESTS PASSED");` followed by `$finish;` **only if all checks pass**
 DUT Module Name:
