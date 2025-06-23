@@ -174,6 +174,8 @@ write_def {top_module}_placed.def
 tapcell
 # run_filler
 
+{tracks_cmd}
+
 global_route
 detailed_route 
 
