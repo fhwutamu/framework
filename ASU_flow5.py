@@ -5,7 +5,7 @@ import vertexai
 import time
 import re
 
-MAX_ITER = 10
+MAX_ITER = 20
 
 PDK_MAP = {
     "SkyWater 130HD": {
@@ -136,7 +136,7 @@ set non_clock_inputs [lsearch -inline -all -not -exact [all_inputs] $clk_port]
 set_input_delay  [expr $clk_period * $clk_io_pct] -clock $clk_name $non_clock_inputs 
 set_output_delay [expr $clk_period * $clk_io_pct] -clock $clk_name [all_outputs]
 """
-    write_file("constraint.sdc", sdc)
+    write_file(f"{top_module}_constraint.sdc", sdc)
 
 def prompt_continue_openroad():
     user_input = input("\n❗Functionality test failed after all attempts. Proceed to OpenROAD synthesis anyway? (Y/N): ").strip().lower()
@@ -162,7 +162,7 @@ read_verilog {design_file}
 
 link_design {top_module}
 
-read_sdc constraint.sdc
+read_sdc {top_module}_constraint.sdc
 
 initialize_floorplan -utilization 0.4 -aspect_ratio 1.0 -core_space 2 -site unithd
 
