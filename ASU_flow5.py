@@ -166,9 +166,10 @@ read_sdc constraint.sdc
 
 initialize_floorplan -utilization 0.4 -aspect_ratio 1.0 -core_space 2 -site unithd
 
+place_pin clk -layer met2 -location 0 100
+
 place_io_terminals
 
-set_routing_layers -signal -layers met1 met2 met3 met4 met5
 
 global_placement
 detailed_placement
