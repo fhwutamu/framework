@@ -12,7 +12,7 @@ PDK_MAP = {
         "lib":  "/OpenROAD-flow-scripts/flow/platforms/sky130hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib",
         "lef":  "/OpenROAD-flow-scripts/flow/platforms/sky130hd/lef/sky130_fd_sc_hd_merged.lef",
         "tlef": "/OpenROAD-flow-scripts/flow/platforms/sky130hd/lef/sky130_fd_sc_hd.tlef",
-        "trackers": "/OpenROAD-flow-scripts/flow/platforms/sky130hd/rc/sky130hd_tracks.tcl"
+        "trackers": "/OpenROAD-flow-scripts/flow/platforms/sky130hd/make_tracks.tcl"
     },
     "SkyWater 130HS": {
         "lib":  "/OpenROAD-flow-scripts/flow/platforms/sky130hs/lib/sky130_fd_sc_hs__tt_025C_1v80.lib",
